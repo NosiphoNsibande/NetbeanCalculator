@@ -5,6 +5,10 @@
  */
 package com.myboston.calculator;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  *
  * @author getWorth
@@ -54,8 +58,13 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
         btnSeparator = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setAlwaysOnTop(true);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setSize(new java.awt.Dimension(450, 450));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         CalculatorPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        CalculatorPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         HeaderPanel.setBackground(new java.awt.Color(255, 255, 255));
         HeaderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Online Calculator", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
@@ -70,7 +79,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
             .addGroup(HeaderPanelLayout.createSequentialGroup()
                 .addGap(135, 135, 135)
                 .addComponent(HeaderLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(220, Short.MAX_VALUE))
         );
         HeaderPanelLayout.setVerticalGroup(
             HeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -79,6 +88,8 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 .addComponent(HeaderLabel1)
                 .addContainerGap(19, Short.MAX_VALUE))
         );
+
+        CalculatorPanel1.add(HeaderPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 467, -1));
 
         resultPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Results", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
@@ -92,9 +103,9 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
         resultPanel.setLayout(resultPanelLayout);
         resultPanelLayout.setHorizontalGroup(
             resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 455, Short.MAX_VALUE)
             .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(txtResult, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
+                .addComponent(txtResult, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE))
         );
         resultPanelLayout.setVerticalGroup(
             resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,9 +114,22 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 .addComponent(txtResult, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
         );
 
+        CalculatorPanel1.add(resultPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 81, 467, -1));
+
         btnMemoryPlus.setBackground(new java.awt.Color(153, 153, 153));
         btnMemoryPlus.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnMemoryPlus.setText("M+");
+        btnMemoryPlus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMemoryPlusMouseClicked(evt);
+            }
+        });
+        btnMemoryPlus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMemoryPlusActionPerformed(evt);
+            }
+        });
+        CalculatorPanel1.add(btnMemoryPlus, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 164, 65, 40));
 
         btnMemoryMinus.setBackground(new java.awt.Color(153, 153, 153));
         btnMemoryMinus.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -115,6 +139,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnMemoryMinusActionPerformed(evt);
             }
         });
+        CalculatorPanel1.add(btnMemoryMinus, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 164, 65, 40));
 
         btnMemoryRecall.setBackground(new java.awt.Color(153, 153, 153));
         btnMemoryRecall.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -124,146 +149,248 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnMemoryRecallActionPerformed(evt);
             }
         });
+        CalculatorPanel1.add(btnMemoryRecall, new org.netbeans.lib.awtextra.AbsoluteConstraints(256, 164, 65, 40));
 
         btnClear.setBackground(new java.awt.Color(204, 0, 0));
         btnClear.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnClear.setForeground(new java.awt.Color(255, 255, 255));
-        btnClear.setText("AC");
+        btnClear.setText("CE");
+        btnClear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnClearMouseClicked(evt);
+            }
+        });
+        CalculatorPanel1.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(331, 164, 50, 40));
 
         btnNum2.setBackground(new java.awt.Color(255, 255, 255));
         btnNum2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnNum2.setText("2");
+        btnNum2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNum2MouseClicked(evt);
+            }
+        });
         btnNum2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNum2ActionPerformed(evt);
             }
         });
+        CalculatorPanel1.add(btnNum2, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 222, 50, 40));
 
         btnNum1.setBackground(new java.awt.Color(255, 255, 255));
         btnNum1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnNum1.setText("1");
+        btnNum1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNum1MouseClicked(evt);
+            }
+        });
         btnNum1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNum1ActionPerformed(evt);
             }
         });
+        CalculatorPanel1.add(btnNum1, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 222, 50, 40));
 
         btnNum3.setBackground(new java.awt.Color(255, 255, 255));
         btnNum3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnNum3.setText("3");
+        btnNum3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNum3MouseClicked(evt);
+            }
+        });
         btnNum3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNum3ActionPerformed(evt);
             }
         });
+        CalculatorPanel1.add(btnNum3, new org.netbeans.lib.awtextra.AbsoluteConstraints(256, 222, 50, 40));
 
         btnAdd.setBackground(new java.awt.Color(204, 204, 255));
         btnAdd.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnAdd.setText("+");
+        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAddMouseClicked(evt);
+            }
+        });
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
             }
         });
+        CalculatorPanel1.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(331, 222, 50, 40));
 
         btnMinus.setBackground(new java.awt.Color(204, 204, 255));
         btnMinus.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnMinus.setText("-");
+        btnMinus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMinusMouseClicked(evt);
+            }
+        });
         btnMinus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMinusActionPerformed(evt);
             }
         });
+        CalculatorPanel1.add(btnMinus, new org.netbeans.lib.awtextra.AbsoluteConstraints(331, 280, 50, 40));
 
         btnMultiple.setBackground(new java.awt.Color(204, 204, 255));
         btnMultiple.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnMultiple.setText("*");
+        btnMultiple.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMultipleMouseClicked(evt);
+            }
+        });
         btnMultiple.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMultipleActionPerformed(evt);
             }
         });
+        CalculatorPanel1.add(btnMultiple, new org.netbeans.lib.awtextra.AbsoluteConstraints(331, 333, 50, 40));
 
         btnDivion.setBackground(new java.awt.Color(204, 204, 255));
         btnDivion.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnDivion.setText("/");
+        btnDivion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDivionMouseClicked(evt);
+            }
+        });
         btnDivion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDivionActionPerformed(evt);
             }
         });
+        CalculatorPanel1.add(btnDivion, new org.netbeans.lib.awtextra.AbsoluteConstraints(331, 385, 50, 40));
 
         btnEquivalent.setBackground(new java.awt.Color(204, 204, 255));
         btnEquivalent.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnEquivalent.setText("=");
+        btnEquivalent.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEquivalentMouseClicked(evt);
+            }
+        });
         btnEquivalent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEquivalentActionPerformed(evt);
             }
         });
+        CalculatorPanel1.add(btnEquivalent, new org.netbeans.lib.awtextra.AbsoluteConstraints(256, 385, 50, 40));
 
         btnNum4.setBackground(new java.awt.Color(255, 255, 255));
         btnNum4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnNum4.setText("4");
+        btnNum4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNum4MouseClicked(evt);
+            }
+        });
         btnNum4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNum4ActionPerformed(evt);
             }
         });
+        btnNum4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnNum4KeyPressed(evt);
+            }
+        });
+        CalculatorPanel1.add(btnNum4, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 280, 50, 40));
 
         btnNum5.setBackground(new java.awt.Color(255, 255, 255));
         btnNum5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnNum5.setText("5");
+        btnNum5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNum5MouseClicked(evt);
+            }
+        });
         btnNum5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNum5ActionPerformed(evt);
             }
         });
+        CalculatorPanel1.add(btnNum5, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 280, 50, 40));
 
         btnNum6.setBackground(new java.awt.Color(255, 255, 255));
         btnNum6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnNum6.setText("6");
+        btnNum6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNum6MouseClicked(evt);
+            }
+        });
         btnNum6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNum6ActionPerformed(evt);
             }
         });
+        CalculatorPanel1.add(btnNum6, new org.netbeans.lib.awtextra.AbsoluteConstraints(256, 280, 50, 40));
 
         btnNum9.setBackground(new java.awt.Color(255, 255, 255));
         btnNum9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnNum9.setText("9");
+        btnNum9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNum9MouseClicked(evt);
+            }
+        });
         btnNum9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNum9ActionPerformed(evt);
             }
         });
+        CalculatorPanel1.add(btnNum9, new org.netbeans.lib.awtextra.AbsoluteConstraints(256, 333, 50, 40));
 
         btnNum8.setBackground(new java.awt.Color(255, 255, 255));
         btnNum8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnNum8.setText("8");
+        btnNum8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNum8MouseClicked(evt);
+            }
+        });
         btnNum8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNum8ActionPerformed(evt);
             }
         });
+        CalculatorPanel1.add(btnNum8, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 333, 50, 40));
 
         btnNum7.setBackground(new java.awt.Color(255, 255, 255));
         btnNum7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnNum7.setText("7");
+        btnNum7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNum7MouseClicked(evt);
+            }
+        });
         btnNum7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNum7ActionPerformed(evt);
             }
         });
+        CalculatorPanel1.add(btnNum7, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 333, 50, 40));
 
         btnNum0.setBackground(new java.awt.Color(255, 255, 255));
         btnNum0.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnNum0.setText("0");
+        btnNum0.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNum0MouseClicked(evt);
+            }
+        });
         btnNum0.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNum0ActionPerformed(evt);
             }
         });
+        CalculatorPanel1.add(btnNum0, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 385, 50, 40));
 
         btnSeparator.setBackground(new java.awt.Color(255, 255, 255));
         btnSeparator.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -273,105 +400,9 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnSeparatorActionPerformed(evt);
             }
         });
+        CalculatorPanel1.add(btnSeparator, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 384, 50, 40));
 
-        javax.swing.GroupLayout CalculatorPanel1Layout = new javax.swing.GroupLayout(CalculatorPanel1);
-        CalculatorPanel1.setLayout(CalculatorPanel1Layout);
-        CalculatorPanel1Layout.setHorizontalGroup(
-            CalculatorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(HeaderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(resultPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CalculatorPanel1Layout.createSequentialGroup()
-                .addGap(86, 86, 86)
-                .addGroup(CalculatorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnMemoryPlus, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-                    .addGroup(CalculatorPanel1Layout.createSequentialGroup()
-                        .addGroup(CalculatorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnNum1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNum4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNum7, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNum0, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
-                .addGroup(CalculatorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnMemoryMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNum2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNum5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNum8, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
-                .addGroup(CalculatorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnNum6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnMemoryRecall, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNum3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNum9, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEquivalent, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(CalculatorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                    .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnMinus, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                    .addComponent(btnMultiple, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                    .addComponent(btnDivion, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
-                .addGap(86, 86, 86))
-        );
-        CalculatorPanel1Layout.setVerticalGroup(
-            CalculatorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(CalculatorPanel1Layout.createSequentialGroup()
-                .addComponent(HeaderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(resultPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(CalculatorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnMemoryPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnMemoryMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnMemoryRecall, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(CalculatorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNum1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNum2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNum3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(CalculatorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(CalculatorPanel1Layout.createSequentialGroup()
-                        .addGap(71, 71, 71)
-                        .addGroup(CalculatorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnMultiple, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNum9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNum8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNum7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(CalculatorPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(CalculatorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnNum4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNum5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNum6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(CalculatorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNum0, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEquivalent, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDivion, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 817, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(CalculatorPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(CalculatorPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
-        );
+        getContentPane().add(CalculatorPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, 450));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -394,6 +425,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
 
     private void btnNum1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNum1ActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnNum1ActionPerformed
 
     private void btnNum3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNum3ActionPerformed
@@ -452,9 +484,253 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSeparatorActionPerformed
 
+    private void btnMemoryPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMemoryPlusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMemoryPlusActionPerformed
+
+    private void btnNum1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum1MouseClicked
+        // TODO add your handling code here: 
+        String res = txtResult.getText();
+        if(txtResult.getText().isEmpty())
+            txtResult.setText("1");
+        else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
+        {
+            txtResult.setText(txtResult.getText() + "1");
+            value2 = Integer.parseInt(value2 + "1");
+        }
+        else
+            txtResult.setText(txtResult.getText()+ "1");
+    }//GEN-LAST:event_btnNum1MouseClicked
+
+    private void btnNum2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum2MouseClicked
+        // TODO add your handling code here:
+        String res = txtResult.getText();
+        if(txtResult.getText().isEmpty())
+            txtResult.setText("2");
+        else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
+        {
+            txtResult.setText(txtResult.getText() + "2");
+            value2 = Integer.parseInt(value2 + "2");
+        }
+        else
+            txtResult.setText(txtResult.getText()+ "2");
+    }//GEN-LAST:event_btnNum2MouseClicked
+
+    private void btnNum3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum3MouseClicked
+        // TODO add your handling code here:
+        String res = txtResult.getText();
+        if(txtResult.getText().isEmpty())
+            txtResult.setText("3");
+        else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
+        {
+            txtResult.setText(txtResult.getText() + "3");
+            value2 = Integer.parseInt(value2 + "3");
+        }
+        else
+            txtResult.setText(txtResult.getText()+ "3");
+    }//GEN-LAST:event_btnNum3MouseClicked
+
+    private void btnNum4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum4MouseClicked
+        // TODO add your handling code here:
+        String res = txtResult.getText();
+        if(txtResult.getText().isEmpty())
+            txtResult.setText("4");
+        else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
+        {
+            txtResult.setText(txtResult.getText() + "4");
+            value2 = Integer.parseInt(value2 + "4");
+        }
+        else
+            txtResult.setText(txtResult.getText()+ "4");
+    }//GEN-LAST:event_btnNum4MouseClicked
+
+    private void btnNum4KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnNum4KeyPressed
+        // TODO add your handling code here:
+        String res = txtResult.getText();
+        if(txtResult.getText().isEmpty())
+            txtResult.setText("4");
+        else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
+        {
+            txtResult.setText(txtResult.getText() + "4");
+            value2 = Integer.parseInt(value2 + "4");
+        }
+        else
+            txtResult.setText(txtResult.getText()+ "4");
+    }//GEN-LAST:event_btnNum4KeyPressed
+
+    private void btnNum5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum5MouseClicked
+        // TODO add your handling code here:
+        String res = txtResult.getText();
+        if(txtResult.getText().isEmpty())
+            txtResult.setText("5");
+        else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
+        {
+            txtResult.setText(txtResult.getText() + "5");
+            value2 = Integer.parseInt(value2 + "5");
+        }
+        else
+            txtResult.setText(txtResult.getText()+ "5");
+    }//GEN-LAST:event_btnNum5MouseClicked
+
+    private void btnNum6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum6MouseClicked
+        // TODO add your handling code here:
+        String res = txtResult.getText();
+        if(txtResult.getText().isEmpty())
+            txtResult.setText("6");
+        else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
+        {
+            txtResult.setText(txtResult.getText() + "6");
+            value2 = Integer.parseInt(value2 + "6");
+        }
+        else
+            txtResult.setText(txtResult.getText()+ "6");
+    }//GEN-LAST:event_btnNum6MouseClicked
+
+    private void btnNum7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum7MouseClicked
+        // TODO add your handling code here:
+        String res = txtResult.getText();
+        if(txtResult.getText().isEmpty())
+            txtResult.setText("7");
+        else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
+        {
+            txtResult.setText(txtResult.getText() + "7");
+            value2 = Integer.parseInt(value2 + "7");
+        }
+        else
+            txtResult.setText(txtResult.getText()+ "7");
+    }//GEN-LAST:event_btnNum7MouseClicked
+
+    private void btnNum8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum8MouseClicked
+        // TODO add your handling code here:
+        String res = txtResult.getText();
+        if(txtResult.getText().isEmpty())
+            txtResult.setText("8");
+        else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
+        {
+            txtResult.setText(txtResult.getText() + "8");
+            value2 = Integer.parseInt(value2 + "8");
+        }
+        else
+            txtResult.setText(txtResult.getText()+ "8");
+    }//GEN-LAST:event_btnNum8MouseClicked
+
+    private void btnNum9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum9MouseClicked
+        // TODO add your handling code here:
+        String res = txtResult.getText();
+        if(txtResult.getText().isEmpty())
+            txtResult.setText("9");
+        else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
+        {
+            txtResult.setText(txtResult.getText() + "9");
+            value2 = Integer.parseInt(value2 + "9");
+        }
+        else
+            txtResult.setText(txtResult.getText()+ "9");
+    }//GEN-LAST:event_btnNum9MouseClicked
+
+    private void btnNum0MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum0MouseClicked
+        // TODO add your handling code here:
+        String res = txtResult.getText();
+        if(txtResult.getText().isEmpty())
+            txtResult.setText("0");
+        else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
+        {
+            txtResult.setText(txtResult.getText() + "0");
+            value2 = Integer.parseInt(value2 + "0");
+        }
+        else
+            txtResult.setText(txtResult.getText()+ "0");
+    }//GEN-LAST:event_btnNum0MouseClicked
+
+    private void btnClearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearMouseClicked
+        // TODO add your handling code here:
+        txtResult.setText("");
+    }//GEN-LAST:event_btnClearMouseClicked
+
+    private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
+        // TODO add your handling code here:
+        if(txtResult.getText().isEmpty())
+           return;
+        else
+           value1 = Integer.parseInt(txtResult.getText());
+           txtResult.setText( txtResult.getText() + "" + btnAdd.getText() );
+           operator = "plus";
+    }//GEN-LAST:event_btnAddMouseClicked
+
+    private void btnMinusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinusMouseClicked
+        // TODO add your handling code here:
+        if(txtResult.getText().isEmpty())
+           return;
+        else
+            value1 = Integer.parseInt(txtResult.getText());
+            txtResult.setText( txtResult.getText() + " " + btnMinus.getText() );
+            operator = "minus";
+    }//GEN-LAST:event_btnMinusMouseClicked
+
+    private void btnMultipleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMultipleMouseClicked
+        // TODO add your handling code here:
+        if(txtResult.getText().isEmpty())
+           return;
+        else
+            value1 = Integer.parseInt(txtResult.getText());
+            txtResult.setText( txtResult.getText() + " " + btnMultiple.getText() );
+            operator = "multiplecation";
+    }//GEN-LAST:event_btnMultipleMouseClicked
+
+    private void btnDivionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDivionMouseClicked
+        // TODO add your handling code here:
+        
+        if(txtResult.getText().isEmpty())
+           return;
+        else
+            value1 = Integer.parseInt(txtResult.getText());
+            txtResult.setText( txtResult.getText() + " " + btnDivion.getText() );
+            operator = "division";
+    }//GEN-LAST:event_btnDivionMouseClicked
+
+    private void btnEquivalentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEquivalentMouseClicked
+        // TODO add your handling code here:
+        double answer = 0;
+        switch ( operator ) {
+            case "plus":
+            answer = value1 + value2;
+            break;
+            case "minus":
+            answer = value1 - value2;
+            break;
+            case "multiplication":
+            answer = value1 * value2;
+            break;
+            case "division":
+             answer = value1/value2;
+            break;
+            default:
+        }
+        String Result = Double.toString(answer);
+        txtResult.setText(Result);
+    }//GEN-LAST:event_btnEquivalentMouseClicked
+
+    private void btnMemoryPlusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMemoryPlusMouseClicked
+        // TODO add your handling code here:
+ 
+            try {
+                 
+                FileWriter fr = new FileWriter("hello.txt");
+                BufferedWriter br = new BufferedWriter(fr);
+                br.write("helllllllllllllllll");
+                br.close();
+            }
+            catch(IOException i){
+                i.printStackTrace();
+            }
+    }//GEN-LAST:event_btnMemoryPlusMouseClicked
+
     /**
      * @param args the command line arguments
      */
+    public int value1;
+    public int value2;
+    public String operator;
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
