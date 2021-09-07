@@ -5,9 +5,13 @@
  */
 package com.myboston.calculator;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,8 +36,6 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
     private void initComponents() {
 
         CalculatorPanel1 = new javax.swing.JPanel();
-        HeaderPanel = new javax.swing.JPanel();
-        HeaderLabel1 = new javax.swing.JLabel();
         resultPanel = new javax.swing.JPanel();
         txtResult = new javax.swing.JTextField();
         btnMemoryPlus = new javax.swing.JButton();
@@ -66,31 +68,6 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
         CalculatorPanel1.setBackground(new java.awt.Color(255, 255, 255));
         CalculatorPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        HeaderPanel.setBackground(new java.awt.Color(255, 255, 255));
-        HeaderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Online Calculator", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
-
-        HeaderLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        HeaderLabel1.setText("Calculator");
-
-        javax.swing.GroupLayout HeaderPanelLayout = new javax.swing.GroupLayout(HeaderPanel);
-        HeaderPanel.setLayout(HeaderPanelLayout);
-        HeaderPanelLayout.setHorizontalGroup(
-            HeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(HeaderPanelLayout.createSequentialGroup()
-                .addGap(135, 135, 135)
-                .addComponent(HeaderLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(220, Short.MAX_VALUE))
-        );
-        HeaderPanelLayout.setVerticalGroup(
-            HeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(HeaderPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(HeaderLabel1)
-                .addContainerGap(19, Short.MAX_VALUE))
-        );
-
-        CalculatorPanel1.add(HeaderPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 467, -1));
-
         resultPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Results", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
         txtResult.addActionListener(new java.awt.event.ActionListener() {
@@ -105,7 +82,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
             resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 455, Short.MAX_VALUE)
             .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(txtResult, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE))
+                .addComponent(txtResult, javax.swing.GroupLayout.Alignment.TRAILING))
         );
         resultPanelLayout.setVerticalGroup(
             resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,7 +91,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 .addComponent(txtResult, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
         );
 
-        CalculatorPanel1.add(resultPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 81, 467, -1));
+        CalculatorPanel1.add(resultPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 467, -1));
 
         btnMemoryPlus.setBackground(new java.awt.Color(153, 153, 153));
         btnMemoryPlus.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -129,27 +106,37 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnMemoryPlusActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnMemoryPlus, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 164, 65, 40));
+        CalculatorPanel1.add(btnMemoryPlus, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, 65, 40));
 
         btnMemoryMinus.setBackground(new java.awt.Color(153, 153, 153));
         btnMemoryMinus.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnMemoryMinus.setText("M-");
+        btnMemoryMinus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMemoryMinusMouseClicked(evt);
+            }
+        });
         btnMemoryMinus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMemoryMinusActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnMemoryMinus, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 164, 65, 40));
+        CalculatorPanel1.add(btnMemoryMinus, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 65, 40));
 
         btnMemoryRecall.setBackground(new java.awt.Color(153, 153, 153));
         btnMemoryRecall.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnMemoryRecall.setText("MR");
+        btnMemoryRecall.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMemoryRecallMouseClicked(evt);
+            }
+        });
         btnMemoryRecall.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMemoryRecallActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnMemoryRecall, new org.netbeans.lib.awtextra.AbsoluteConstraints(256, 164, 65, 40));
+        CalculatorPanel1.add(btnMemoryRecall, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 110, 65, 40));
 
         btnClear.setBackground(new java.awt.Color(204, 0, 0));
         btnClear.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -160,7 +147,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnClearMouseClicked(evt);
             }
         });
-        CalculatorPanel1.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(331, 164, 50, 40));
+        CalculatorPanel1.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 110, 65, 40));
 
         btnNum2.setBackground(new java.awt.Color(255, 255, 255));
         btnNum2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -175,7 +162,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnNum2ActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnNum2, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 222, 50, 40));
+        CalculatorPanel1.add(btnNum2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 290, 65, 40));
 
         btnNum1.setBackground(new java.awt.Color(255, 255, 255));
         btnNum1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -190,7 +177,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnNum1ActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnNum1, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 222, 50, 40));
+        CalculatorPanel1.add(btnNum1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, 65, 40));
 
         btnNum3.setBackground(new java.awt.Color(255, 255, 255));
         btnNum3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -205,7 +192,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnNum3ActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnNum3, new org.netbeans.lib.awtextra.AbsoluteConstraints(256, 222, 50, 40));
+        CalculatorPanel1.add(btnNum3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 290, 65, 40));
 
         btnAdd.setBackground(new java.awt.Color(204, 204, 255));
         btnAdd.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -220,7 +207,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnAddActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(331, 222, 50, 40));
+        CalculatorPanel1.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 170, 65, 40));
 
         btnMinus.setBackground(new java.awt.Color(204, 204, 255));
         btnMinus.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -235,7 +222,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnMinusActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnMinus, new org.netbeans.lib.awtextra.AbsoluteConstraints(331, 280, 50, 40));
+        CalculatorPanel1.add(btnMinus, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 230, 65, 40));
 
         btnMultiple.setBackground(new java.awt.Color(204, 204, 255));
         btnMultiple.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -250,7 +237,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnMultipleActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnMultiple, new org.netbeans.lib.awtextra.AbsoluteConstraints(331, 333, 50, 40));
+        CalculatorPanel1.add(btnMultiple, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 290, 65, 40));
 
         btnDivion.setBackground(new java.awt.Color(204, 204, 255));
         btnDivion.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -265,7 +252,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnDivionActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnDivion, new org.netbeans.lib.awtextra.AbsoluteConstraints(331, 385, 50, 40));
+        CalculatorPanel1.add(btnDivion, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 350, 65, 40));
 
         btnEquivalent.setBackground(new java.awt.Color(204, 204, 255));
         btnEquivalent.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -280,7 +267,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnEquivalentActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnEquivalent, new org.netbeans.lib.awtextra.AbsoluteConstraints(256, 385, 50, 40));
+        CalculatorPanel1.add(btnEquivalent, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 350, 65, 40));
 
         btnNum4.setBackground(new java.awt.Color(255, 255, 255));
         btnNum4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -300,7 +287,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnNum4KeyPressed(evt);
             }
         });
-        CalculatorPanel1.add(btnNum4, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 280, 50, 40));
+        CalculatorPanel1.add(btnNum4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 230, 65, 40));
 
         btnNum5.setBackground(new java.awt.Color(255, 255, 255));
         btnNum5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -315,7 +302,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnNum5ActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnNum5, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 280, 50, 40));
+        CalculatorPanel1.add(btnNum5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, 65, 40));
 
         btnNum6.setBackground(new java.awt.Color(255, 255, 255));
         btnNum6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -330,7 +317,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnNum6ActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnNum6, new org.netbeans.lib.awtextra.AbsoluteConstraints(256, 280, 50, 40));
+        CalculatorPanel1.add(btnNum6, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 230, 65, 40));
 
         btnNum9.setBackground(new java.awt.Color(255, 255, 255));
         btnNum9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -345,7 +332,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnNum9ActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnNum9, new org.netbeans.lib.awtextra.AbsoluteConstraints(256, 333, 50, 40));
+        CalculatorPanel1.add(btnNum9, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 170, 65, 40));
 
         btnNum8.setBackground(new java.awt.Color(255, 255, 255));
         btnNum8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -360,7 +347,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnNum8ActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnNum8, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 333, 50, 40));
+        CalculatorPanel1.add(btnNum8, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 65, 40));
 
         btnNum7.setBackground(new java.awt.Color(255, 255, 255));
         btnNum7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -375,7 +362,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnNum7ActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnNum7, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 333, 50, 40));
+        CalculatorPanel1.add(btnNum7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, 65, 40));
 
         btnNum0.setBackground(new java.awt.Color(255, 255, 255));
         btnNum0.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -390,7 +377,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnNum0ActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnNum0, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 385, 50, 40));
+        CalculatorPanel1.add(btnNum0, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, 65, 40));
 
         btnSeparator.setBackground(new java.awt.Color(255, 255, 255));
         btnSeparator.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -400,7 +387,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnSeparatorActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnSeparator, new org.netbeans.lib.awtextra.AbsoluteConstraints(169, 384, 50, 40));
+        CalculatorPanel1.add(btnSeparator, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 350, 65, 40));
 
         getContentPane().add(CalculatorPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, 450));
 
@@ -714,16 +701,56 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
         // TODO add your handling code here:
  
             try {
-                 
-                FileWriter fr = new FileWriter("hello.txt");
+              if(txtResult.getText().isEmpty()) {
+               JOptionPane.showMessageDialog(null, "Please enter a number", "Alert", JOptionPane.ERROR_MESSAGE);  
+              }
+              else {
+                File userDataFile = new File("memory.txt");
+                if (userDataFile.exists());
+                FileWriter fr = new FileWriter("memory.txt");
                 BufferedWriter br = new BufferedWriter(fr);
-                br.write("helllllllllllllllll");
+                br.write(txtResult.getText());
+                JOptionPane.showMessageDialog(null, "Value successfully saved to memory", "Alert", JOptionPane.INFORMATION_MESSAGE);
                 br.close();
+              }
             }
             catch(IOException i){
                 i.printStackTrace();
             }
     }//GEN-LAST:event_btnMemoryPlusMouseClicked
+
+    private void btnMemoryMinusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMemoryMinusMouseClicked
+        // TODO add your handling code here:
+            try {
+                File userDataFile = new File("memory.txt");
+                if (userDataFile.exists());
+                FileWriter fr = new FileWriter("memory.txt");
+                BufferedWriter br = new BufferedWriter(fr);
+                br.flush();
+                JOptionPane.showMessageDialog(null, "Value successfully removed from memory", "Alert", JOptionPane.INFORMATION_MESSAGE);
+                br.close();
+              }
+            catch(IOException i){
+                i.printStackTrace();
+            }
+    }//GEN-LAST:event_btnMemoryMinusMouseClicked
+
+    private void btnMemoryRecallMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMemoryRecallMouseClicked
+        // TODO add your handling code here:
+       try {
+        BufferedReader in = new BufferedReader(new FileReader("memory.txt"));
+        String line;
+        while((line = in.readLine()) != null){
+            System.out.println(line);
+            txtResult.setText(line);
+            JOptionPane.showMessageDialog(null, "Retrived value is:" + " " + line, "Alert", JOptionPane.INFORMATION_MESSAGE);
+        }
+        in.close();
+       } catch (IOException i) {
+         i.printStackTrace();
+       }
+       
+    }//GEN-LAST:event_btnMemoryRecallMouseClicked
 
     /**
      * @param args the command line arguments
@@ -765,8 +792,6 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CalculatorPanel1;
-    private javax.swing.JLabel HeaderLabel1;
-    private javax.swing.JPanel HeaderPanel;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnDivion;
