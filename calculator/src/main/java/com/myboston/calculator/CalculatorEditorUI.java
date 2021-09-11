@@ -5,12 +5,14 @@
  */
 package com.myboston.calculator;
 
+import static java.awt.PageAttributes.MediaType.A;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import static javax.management.Query.value;
 import javax.swing.JOptionPane;
 
 /**
@@ -38,6 +40,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
         CalculatorPanel1 = new javax.swing.JPanel();
         resultPanel = new javax.swing.JPanel();
         txtResult = new javax.swing.JTextField();
+        lblResult = new javax.swing.JLabel();
         btnMemoryPlus = new javax.swing.JButton();
         btnMemoryMinus = new javax.swing.JButton();
         btnMemoryRecall = new javax.swing.JButton();
@@ -58,6 +61,8 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
         btnNum7 = new javax.swing.JButton();
         btnNum0 = new javax.swing.JButton();
         btnSeparator = new javax.swing.JButton();
+        btnPlusMinus = new javax.swing.JButton();
+        btnPercentage = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -70,23 +75,44 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
 
         resultPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Results", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
+        txtResult.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtResult.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtResultActionPerformed(evt);
             }
         });
+        txtResult.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                txtResultPropertyChange(evt);
+            }
+        });
+        txtResult.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtResultKeyTyped(evt);
+            }
+        });
+
+        lblResult.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblResult.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblResult.setLabelFor(txtResult);
+        lblResult.setToolTipText("");
 
         javax.swing.GroupLayout resultPanelLayout = new javax.swing.GroupLayout(resultPanel);
         resultPanel.setLayout(resultPanelLayout);
         resultPanelLayout.setHorizontalGroup(
             resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 455, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, resultPanelLayout.createSequentialGroup()
+                .addContainerGap(375, Short.MAX_VALUE)
+                .addComponent(lblResult, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(txtResult, javax.swing.GroupLayout.Alignment.TRAILING))
         );
         resultPanelLayout.setVerticalGroup(
             resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 42, Short.MAX_VALUE)
+            .addGroup(resultPanelLayout.createSequentialGroup()
+                .addComponent(lblResult, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 22, Short.MAX_VALUE))
             .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(txtResult, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
         );
@@ -141,13 +167,13 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
         btnClear.setBackground(new java.awt.Color(204, 0, 0));
         btnClear.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnClear.setForeground(new java.awt.Color(255, 255, 255));
-        btnClear.setText("CE");
+        btnClear.setText("C");
         btnClear.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnClearMouseClicked(evt);
             }
         });
-        CalculatorPanel1.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 110, 65, 40));
+        CalculatorPanel1.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 110, 60, 40));
 
         btnNum2.setBackground(new java.awt.Color(255, 255, 255));
         btnNum2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -267,7 +293,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
                 btnEquivalentActionPerformed(evt);
             }
         });
-        CalculatorPanel1.add(btnEquivalent, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 350, 65, 40));
+        CalculatorPanel1.add(btnEquivalent, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 400, 150, 40));
 
         btnNum4.setBackground(new java.awt.Color(255, 255, 255));
         btnNum4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -382,12 +408,35 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
         btnSeparator.setBackground(new java.awt.Color(255, 255, 255));
         btnSeparator.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnSeparator.setText(".");
+        btnSeparator.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSeparatorMouseClicked(evt);
+            }
+        });
         btnSeparator.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSeparatorActionPerformed(evt);
             }
         });
         CalculatorPanel1.add(btnSeparator, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 350, 65, 40));
+
+        btnPlusMinus.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnPlusMinus.setText("+/-");
+        btnPlusMinus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPlusMinusMouseClicked(evt);
+            }
+        });
+        CalculatorPanel1.add(btnPlusMinus, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 400, 150, 40));
+
+        btnPercentage.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnPercentage.setText("%");
+        btnPercentage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPercentageMouseClicked(evt);
+            }
+        });
+        CalculatorPanel1.add(btnPercentage, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 350, 60, 40));
 
         getContentPane().add(CalculatorPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, 450));
 
@@ -476,154 +525,154 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMemoryPlusActionPerformed
 
     private void btnNum1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum1MouseClicked
-        // TODO add your handling code here: 
+        // Button 1 calculation:
         String res = txtResult.getText();
         if(txtResult.getText().isEmpty())
             txtResult.setText("1");
         else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
         {
             txtResult.setText(txtResult.getText() + "1");
-            value2 = Integer.parseInt(value2 + "1");
+            value2 = Double.parseDouble(value2 + "1");
         }
         else
             txtResult.setText(txtResult.getText()+ "1");
     }//GEN-LAST:event_btnNum1MouseClicked
 
     private void btnNum2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum2MouseClicked
-        // TODO add your handling code here:
+        // Button 2 calculation:
         String res = txtResult.getText();
         if(txtResult.getText().isEmpty())
             txtResult.setText("2");
         else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
         {
             txtResult.setText(txtResult.getText() + "2");
-            value2 = Integer.parseInt(value2 + "2");
+            value2 = Double.parseDouble(value2 + "2");
         }
         else
             txtResult.setText(txtResult.getText()+ "2");
     }//GEN-LAST:event_btnNum2MouseClicked
 
     private void btnNum3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum3MouseClicked
-        // TODO add your handling code here:
+        // Button 3 calculation:
         String res = txtResult.getText();
         if(txtResult.getText().isEmpty())
             txtResult.setText("3");
         else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
         {
             txtResult.setText(txtResult.getText() + "3");
-            value2 = Integer.parseInt(value2 + "3");
+            value2 = Double.parseDouble(value2 + "3");
         }
         else
             txtResult.setText(txtResult.getText()+ "3");
     }//GEN-LAST:event_btnNum3MouseClicked
 
     private void btnNum4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum4MouseClicked
-        // TODO add your handling code here:
+        // Button 4 calculation:
         String res = txtResult.getText();
         if(txtResult.getText().isEmpty())
             txtResult.setText("4");
         else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
         {
             txtResult.setText(txtResult.getText() + "4");
-            value2 = Integer.parseInt(value2 + "4");
+            value2 = Double.parseDouble(value2 + "4");
         }
         else
             txtResult.setText(txtResult.getText()+ "4");
     }//GEN-LAST:event_btnNum4MouseClicked
 
     private void btnNum4KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnNum4KeyPressed
-        // TODO add your handling code here:
+        // Button 4 calculation:
         String res = txtResult.getText();
         if(txtResult.getText().isEmpty())
             txtResult.setText("4");
         else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
         {
             txtResult.setText(txtResult.getText() + "4");
-            value2 = Integer.parseInt(value2 + "4");
+            value2 = Double.parseDouble(value2 + "4");
         }
         else
             txtResult.setText(txtResult.getText()+ "4");
     }//GEN-LAST:event_btnNum4KeyPressed
 
     private void btnNum5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum5MouseClicked
-        // TODO add your handling code here:
+        // Button 5 calculation:
         String res = txtResult.getText();
         if(txtResult.getText().isEmpty())
             txtResult.setText("5");
         else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
         {
             txtResult.setText(txtResult.getText() + "5");
-            value2 = Integer.parseInt(value2 + "5");
+            value2 = Double.parseDouble(value2 + "5");
         }
         else
             txtResult.setText(txtResult.getText()+ "5");
     }//GEN-LAST:event_btnNum5MouseClicked
 
     private void btnNum6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum6MouseClicked
-        // TODO add your handling code here:
+        // Button 6 calculation:
         String res = txtResult.getText();
         if(txtResult.getText().isEmpty())
             txtResult.setText("6");
         else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
         {
             txtResult.setText(txtResult.getText() + "6");
-            value2 = Integer.parseInt(value2 + "6");
+            value2 = Double.parseDouble(value2 + "6");
         }
         else
             txtResult.setText(txtResult.getText()+ "6");
     }//GEN-LAST:event_btnNum6MouseClicked
 
     private void btnNum7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum7MouseClicked
-        // TODO add your handling code here:
+        // Button 7 calculation:
         String res = txtResult.getText();
         if(txtResult.getText().isEmpty())
             txtResult.setText("7");
         else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
         {
             txtResult.setText(txtResult.getText() + "7");
-            value2 = Integer.parseInt(value2 + "7");
+            value2 = Double.parseDouble(value2 + "7");
         }
         else
             txtResult.setText(txtResult.getText()+ "7");
     }//GEN-LAST:event_btnNum7MouseClicked
 
     private void btnNum8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum8MouseClicked
-        // TODO add your handling code here:
+        // Button 8 calculation:
         String res = txtResult.getText();
         if(txtResult.getText().isEmpty())
             txtResult.setText("8");
         else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
         {
             txtResult.setText(txtResult.getText() + "8");
-            value2 = Integer.parseInt(value2 + "8");
+            value2 = Double.parseDouble(value2 + "8");
         }
         else
             txtResult.setText(txtResult.getText()+ "8");
     }//GEN-LAST:event_btnNum8MouseClicked
 
     private void btnNum9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum9MouseClicked
-        // TODO add your handling code here:
+        // Button 9 calculation:
         String res = txtResult.getText();
         if(txtResult.getText().isEmpty())
             txtResult.setText("9");
         else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
         {
             txtResult.setText(txtResult.getText() + "9");
-            value2 = Integer.parseInt(value2 + "9");
+            value2 = Double.parseDouble(value2 + "9");
         }
         else
             txtResult.setText(txtResult.getText()+ "9");
     }//GEN-LAST:event_btnNum9MouseClicked
 
     private void btnNum0MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNum0MouseClicked
-        // TODO add your handling code here:
+        // Button 0 calculation:
         String res = txtResult.getText();
         if(txtResult.getText().isEmpty())
             txtResult.setText("0");
         else if(res.contains("+") || res.contains("-") || res.contains("*") || res.contains("/"))
         {
             txtResult.setText(txtResult.getText() + "0");
-            value2 = Integer.parseInt(value2 + "0");
+            value2 = Double.parseDouble(value2 + "0");
         }
         else
             txtResult.setText(txtResult.getText()+ "0");
@@ -635,66 +684,88 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearMouseClicked
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
-        // TODO add your handling code here:
+        // Addition:
         if(txtResult.getText().isEmpty())
            return;
         else
-           value1 = Integer.parseInt(txtResult.getText());
-           txtResult.setText( txtResult.getText() + "" + btnAdd.getText() );
+           value1 = Double.parseDouble(txtResult.getText());
+           lblResult.setText(value1.toString());
+           txtResult.setText("");
            operator = "plus";
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void btnMinusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinusMouseClicked
-        // TODO add your handling code here:
-        if(txtResult.getText().isEmpty())
-           return;
-        else
-            value1 = Integer.parseInt(txtResult.getText());
-            txtResult.setText( txtResult.getText() + " " + btnMinus.getText() );
-            operator = "minus";
-    }//GEN-LAST:event_btnMinusMouseClicked
-
-    private void btnMultipleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMultipleMouseClicked
-        // TODO add your handling code here:
-        if(txtResult.getText().isEmpty())
-           return;
-        else
-            value1 = Integer.parseInt(txtResult.getText());
-            txtResult.setText( txtResult.getText() + " " + btnMultiple.getText() );
-            operator = "multiplecation";
-    }//GEN-LAST:event_btnMultipleMouseClicked
-
-    private void btnDivionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDivionMouseClicked
-        // TODO add your handling code here:
+        // Minus:
         
         if(txtResult.getText().isEmpty())
            return;
         else
-            value1 = Integer.parseInt(txtResult.getText());
-            txtResult.setText( txtResult.getText() + " " + btnDivion.getText() );
+            value1 = Double.parseDouble(txtResult.getText());
+            txtResult.setText("");
+            operator = "minus";
+    }//GEN-LAST:event_btnMinusMouseClicked
+
+    private void btnMultipleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMultipleMouseClicked
+        // Multiplication:
+        
+        if(txtResult.getText().isEmpty())
+           return;
+        else
+            value1 = Double.parseDouble(txtResult.getText());
+            txtResult.setText("");
+            operator = "multiply";
+    }//GEN-LAST:event_btnMultipleMouseClicked
+
+    private void btnDivionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDivionMouseClicked
+        // Division:
+        
+        if(txtResult.getText().isEmpty())
+           return;
+        else
+            value1 = Double.parseDouble(txtResult.getText());
+            txtResult.setText("");
             operator = "division";
     }//GEN-LAST:event_btnDivionMouseClicked
 
     private void btnEquivalentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEquivalentMouseClicked
-        // TODO add your handling code here:
-        double answer = 0;
-        switch ( operator ) {
+        // Calculate answer using switch:
+        String answer;
+        value2 = Double.parseDouble(txtResult.getText());
+        if (!txtResult.getText().isEmpty()) {
+           switch ( operator ) {
             case "plus":
-            answer = value1 + value2;
+            result = value1 + value2;
+            answer = String.format("%.0f", result);
+            txtResult.setText(answer);
             break;
+            
             case "minus":
-            answer = value1 - value2;
+            result = value1 - value2;
+            answer = String.format("%.0f", result);
+            txtResult.setText(answer);
             break;
-            case "multiplication":
-            answer = value1 * value2;
+            
+            case "multiply":
+            result = value1 * value2;
+            answer = String.format("%.0f", result);
+            txtResult.setText(answer);
             break;
+            
             case "division":
-             answer = value1/value2;
+            result = value1 / value2;
+            answer = String.format("%.0f", result);
+            txtResult.setText(answer);
             break;
-            default:
+            
+            case "%":
+            result = value1 % value2;
+            answer = String.format("%.0f", result);
+            txtResult.setText(answer);
+            break;
+           } 
+        } else {
+            
         }
-        String Result = Double.toString(answer);
-        txtResult.setText(Result);
     }//GEN-LAST:event_btnEquivalentMouseClicked
 
     private void btnMemoryPlusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMemoryPlusMouseClicked
@@ -743,7 +814,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
         while((line = in.readLine()) != null){
             System.out.println(line);
             txtResult.setText(line);
-            JOptionPane.showMessageDialog(null, "Retrived value is:" + " " + line, "Alert", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Retried value is:" + " " + line, "Alert", JOptionPane.INFORMATION_MESSAGE);
         }
         in.close();
        } catch (IOException i) {
@@ -752,12 +823,45 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
        
     }//GEN-LAST:event_btnMemoryRecallMouseClicked
 
+    private void txtResultKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtResultKeyTyped
+
+    }//GEN-LAST:event_txtResultKeyTyped
+
+    private void btnSeparatorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSeparatorMouseClicked
+        if(txtResult.getText().isEmpty())
+           return;
+         else
+            value1 = Double.parseDouble(txtResult.getText());
+            txtResult.setText("");
+            operator = ".";
+    }//GEN-LAST:event_btnSeparatorMouseClicked
+
+    private void btnPlusMinusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlusMinusMouseClicked
+        double ops = Double.parseDouble(String.valueOf(txtResult.getText()));
+        txtResult.setText(String.valueOf(ops -ops * (-1)));
+    }//GEN-LAST:event_btnPlusMinusMouseClicked
+
+    private void btnPercentageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPercentageMouseClicked
+          
+        if(txtResult.getText().isEmpty())
+           return;
+        else
+            value1 = Double.parseDouble(txtResult.getText());
+            txtResult.setText("");
+            operator = "%";
+    }//GEN-LAST:event_btnPercentageMouseClicked
+
+    private void txtResultPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtResultPropertyChange
+
+    }//GEN-LAST:event_txtResultPropertyChange
+
     /**
      * @param args the command line arguments
      */
-    public int value1;
-    public int value2;
+    public Double value1;
+    public Double value2;
     public String operator;
+    public double result;
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -811,7 +915,10 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
     private javax.swing.JButton btnNum7;
     private javax.swing.JButton btnNum8;
     private javax.swing.JButton btnNum9;
+    private javax.swing.JButton btnPercentage;
+    private javax.swing.JButton btnPlusMinus;
     private javax.swing.JButton btnSeparator;
+    private javax.swing.JLabel lblResult;
     private javax.swing.JPanel resultPanel;
     private javax.swing.JTextField txtResult;
     // End of variables declaration//GEN-END:variables
