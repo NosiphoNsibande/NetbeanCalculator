@@ -6,12 +6,15 @@
 package com.myboston.calculator;
 
 import static java.awt.PageAttributes.MediaType.A;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import static javax.management.Query.value;
 import javax.swing.JOptionPane;
 
@@ -65,7 +68,6 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
         btnPercentage = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setAlwaysOnTop(true);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setSize(new java.awt.Dimension(450, 450));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -87,37 +89,36 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
             }
         });
         txtResult.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtResultKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtResultKeyTyped(evt);
             }
         });
 
-        lblResult.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblResult.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblResult.setLabelFor(txtResult);
+        lblResult.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        lblResult.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblResult.setToolTipText("");
 
         javax.swing.GroupLayout resultPanelLayout = new javax.swing.GroupLayout(resultPanel);
         resultPanel.setLayout(resultPanelLayout);
         resultPanelLayout.setHorizontalGroup(
             resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, resultPanelLayout.createSequentialGroup()
-                .addContainerGap(375, Short.MAX_VALUE)
-                .addComponent(lblResult, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(txtResult, javax.swing.GroupLayout.Alignment.TRAILING))
+            .addComponent(txtResult)
+            .addGroup(resultPanelLayout.createSequentialGroup()
+                .addComponent(lblResult, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 374, Short.MAX_VALUE))
         );
         resultPanelLayout.setVerticalGroup(
             resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(resultPanelLayout.createSequentialGroup()
-                .addComponent(lblResult, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 22, Short.MAX_VALUE))
-            .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(txtResult, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, resultPanelLayout.createSequentialGroup()
+                .addComponent(lblResult, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtResult, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE))
         );
 
-        CalculatorPanel1.add(resultPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 467, -1));
+        CalculatorPanel1.add(resultPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 467, 90));
 
         btnMemoryPlus.setBackground(new java.awt.Color(153, 153, 153));
         btnMemoryPlus.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -231,6 +232,14 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
+            }
+        });
+        btnAdd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnAddKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                btnAddKeyTyped(evt);
             }
         });
         CalculatorPanel1.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 170, 65, 40));
@@ -689,9 +698,9 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
            return;
         else
            value1 = Double.parseDouble(txtResult.getText());
-           lblResult.setText(value1.toString());
+           lblResult.setText(txtResult.getText()+ "+");
            txtResult.setText("");
-           operator = "plus";
+           operator = "+";
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void btnMinusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinusMouseClicked
@@ -701,8 +710,9 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
            return;
         else
             value1 = Double.parseDouble(txtResult.getText());
+            lblResult.setText(txtResult.getText()+ "-");
             txtResult.setText("");
-            operator = "minus";
+            operator = "-";
     }//GEN-LAST:event_btnMinusMouseClicked
 
     private void btnMultipleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMultipleMouseClicked
@@ -712,8 +722,9 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
            return;
         else
             value1 = Double.parseDouble(txtResult.getText());
+            lblResult.setText(txtResult.getText()+ "*");
             txtResult.setText("");
-            operator = "multiply";
+            operator = "*";
     }//GEN-LAST:event_btnMultipleMouseClicked
 
     private void btnDivionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDivionMouseClicked
@@ -723,35 +734,43 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
            return;
         else
             value1 = Double.parseDouble(txtResult.getText());
+            lblResult.setText(txtResult.getText()+ "/");
             txtResult.setText("");
-            operator = "division";
+            operator = "/";
     }//GEN-LAST:event_btnDivionMouseClicked
 
     private void btnEquivalentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEquivalentMouseClicked
         // Calculate answer using switch:
         String answer;
         value2 = Double.parseDouble(txtResult.getText());
+        int firstNum = (int)Math.round(value1);
+        int secNum = (int)Math.round(value2);
+        lblResult.setText(firstNum + operator + secNum + "=");
         if (!txtResult.getText().isEmpty()) {
            switch ( operator ) {
             case "plus":
+            case "+":
             result = value1 + value2;
             answer = String.format("%.0f", result);
             txtResult.setText(answer);
             break;
             
             case "minus":
+            case "-":
             result = value1 - value2;
             answer = String.format("%.0f", result);
             txtResult.setText(answer);
             break;
             
             case "multiply":
+            case "*":
             result = value1 * value2;
             answer = String.format("%.0f", result);
             txtResult.setText(answer);
             break;
             
             case "division":
+            case "/":
             result = value1 / value2;
             answer = String.format("%.0f", result);
             txtResult.setText(answer);
@@ -825,6 +844,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
 
     private void txtResultKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtResultKeyTyped
 
+ 
     }//GEN-LAST:event_txtResultKeyTyped
 
     private void btnSeparatorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSeparatorMouseClicked
@@ -847,6 +867,7 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
            return;
         else
             value1 = Double.parseDouble(txtResult.getText());
+            lblResult.setText(txtResult.getText()+ "+");
             txtResult.setText("");
             operator = "%";
     }//GEN-LAST:event_btnPercentageMouseClicked
@@ -854,6 +875,111 @@ public class CalculatorEditorUI extends javax.swing.JFrame {
     private void txtResultPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtResultPropertyChange
 
     }//GEN-LAST:event_txtResultPropertyChange
+
+    private void btnAddKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAddKeyTyped
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnAddKeyTyped
+
+    private void btnAddKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAddKeyPressed
+
+    }//GEN-LAST:event_btnAddKeyPressed
+
+    private void txtResultKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtResultKeyReleased
+        // handle keyboard calculation:
+        
+        String PATTERN = "^[0-9+\\-*\\/\\=\\%(\\)]*$";
+        Pattern patt = Pattern.compile(PATTERN);
+        Matcher match = patt.matcher(txtResult.getText());
+        String str = txtResult.getText();
+        
+        if (!match.matches()) {
+          txtResult.setText("");
+        }else {
+          if(evt.getKeyChar() == '+') {
+              
+           String kept = str.substring( 0, str.indexOf("+"));
+           value1 = Double.parseDouble(kept);
+           lblResult.setText(txtResult.getText());
+           txtResult.setText("");
+           operator = "+";
+           
+          } else if (evt.getKeyChar() == '-') {
+            String kept = str.substring( 0, str.indexOf("-"));
+            
+            value1 = Double.parseDouble(kept);
+            lblResult.setText(txtResult.getText());
+            txtResult.setText("");
+            operator = "-";
+              
+          } else if (evt.getKeyChar() == '/') {
+            String kept = str.substring( 0, str.indexOf("/"));
+            
+            value1 = Double.parseDouble(kept);
+            lblResult.setText(txtResult.getText());
+            txtResult.setText("");
+            operator = "/";
+              
+          } else if (evt.getKeyChar() == '*') {
+            String kept = str.substring( 0, str.indexOf("*"));
+            
+            value1 = Double.parseDouble(kept);
+            lblResult.setText(txtResult.getText());
+            txtResult.setText("");
+            operator = "*";
+              
+          } else if (evt.getKeyChar() == '%') {
+            String kept = str.substring( 0, str.indexOf("%"));
+            
+            value1 = Double.parseDouble(kept);
+            txtResult.setText("");
+            operator = "%";
+              
+          } else if (evt.getKeyChar() == '=' || evt.getKeyCode() == 10) {
+            // Calculate answer using switch:
+            String answer;
+            value2 = Double.parseDouble(txtResult.getText());
+            int firstNum = (int)Math.round(value1);
+            int secNum = (int)Math.round(value2);
+            lblResult.setText(firstNum + operator + secNum + "=");
+            if (!txtResult.getText().isEmpty()) {
+               switch ( operator ) {
+                case "plus":
+                case "+":
+                result = value1 + value2;
+                answer = String.format("%.0f", result);
+                txtResult.setText(answer);
+                break;
+
+                case "minus":
+                case "-":
+                result = value1 - value2;
+                answer = String.format("%.0f", result);
+                txtResult.setText(answer);
+                break;
+
+                case "multiply":
+                case "*":
+                result = value1 * value2;
+                answer = String.format("%.0f", result);
+                txtResult.setText(answer);
+                break;
+
+                case "division":
+                case "/":
+                result = value1 / value2;
+                answer = String.format("%.0f", result);
+                txtResult.setText(answer);
+                break;
+
+                case "%":
+                result = value1 % value2;
+                answer = String.format("%.0f", result);
+                txtResult.setText(answer);
+                break;
+               } 
+        } else {}}}
+    }//GEN-LAST:event_txtResultKeyReleased
 
     /**
      * @param args the command line arguments
